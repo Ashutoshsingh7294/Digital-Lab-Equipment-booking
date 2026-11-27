@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>
+   LabBook | Equipment Booking
+  </title>
+  <link href="style.css" rel="stylesheet"/>
+ </head>
+ <body>
+  <aside class="sidebar">
+   <div class="brand">
+    <span class="brand-icon">
+     ⚗
+    </span>
+    <div>
+     <b>
+      LabBook
+     </b>
+     <small>
+      LAB RESOURCE PORTAL
+     </small>
+    </div>
+   </div>
+   <nav>
+    <button class="nav-btn active" data-view="dashboard">
+     ▦
+     <span>
+      Dashboard
+     </span>
+    </button>
+    <button class="nav-btn" data-view="equipment">
+     ▤
+     <span>
+      Equipment
+     </span>
+    </button>
+    <button class="nav-btn" data-view="bookings">
+     ◷
+     <span>
+      My Bookings
+     </span>
+    </button>
+    <button class="nav-btn" data-view="history">
+     ⌁
+     <span>
+      Usage History
+     </span>
+    </button>
+    <button class="nav-btn" data-view="notifications">
+     ♧
+     <span>
+      Notifications
+      <b class="unread" id="nav-unread">
+      </b>
+     </span>
+    </button>
+    <button class="nav-btn" data-view="admin">
+     ⚙
+     <span>
+      Admin Panel
+     </span>
+    </button>
+   </nav>
+   <div class="sidebar-note">
+    <span class="dot">
+    </span>
+    Demo system · Local browser storage
+   </div>
+  </aside>
+  <main class="main">
+   <header class="topbar">
+    <div>
+     <p class="eyebrow">
+      LAB RESOURCE MANAGEMENT
+     </p>
+     <h1 id="page-title">
+      Dashboard
+     </h1>
+    </div>
+    <button class="user-chip" onclick="showView('notifications')">
+     <span class="bell">
+      ♧
+      <b id="bell-count">
+       0
+      </b>
+     </span>
+     <div class="avatar">
+      S
+     </div>
+     <div>
+      <b>
+       Student Portal
+      </b>
+      <small>
+       Demo account
+      </small>
+     </div>
+    </button>
+   </header>
+   <section class="view" id="dashboard-view">
+    <div class="welcome">
+     <div>
+      <h2>
+       Welcome to LabBook
+      </h2>
+      <p>
+       Find equipment, check availability and request a booking.
+      </p>
+     </div>
+     <button class="primary" onclick="showView('equipment')">
+      ＋ New booking
+     </button>
+    </div>
+    <div class="stats">
+     <article class="stat">
+      <span>
+       Equipment items
+      </span>
+      <strong id="total-equipment">
+       0
+      </strong>
+      <small>
+       In catalogue
+      </small>
+     </article>
+     <article class="stat">
+      <span>
+       Available
+      </span>
+      <strong id="available-count">
+       0
+      </strong>
+      <small>
+       Not under maintenance
+      </small>
+     </article>
+     <article class="stat">
+      <span>
+       Pending requests
+      </span>
+      <strong id="pending-count">
+       0
+      </strong>
+      <small>
+       Awaiting approval
+      </small>
+     </article>
+     <article class="stat">
+      <span>
+       Approved
+      </span>
+      <strong id="approved-count">
+       0
+      </strong>
+      <small>
+       Confirmed bookings
+      </small>
+     </article>
+    </div>
+    <div class="panel">
+     <div class="panel-heading">
+      <div>
+       <h3>
+        Equipment overview
+       </h3>
+       <p>
+        Quick view of lab resources
+       </p>
+      </div>
+      <button class="text-btn" onclick="showView('equipment')">
+       View catalogue →
+      </button>
+     </div>
+     <div class="equipment-grid" id="dashboard-equipment">
+     </div>
+    </div>
+    <div class="panel">
+     <div class="panel-heading">
+      <div>
+       <h3>
+        Recent requests
+       </h3>
+       <p>
+        Latest booking activity
+       </p>
+      </div>
+      <button class="text-btn" onclick="showView('bookings')">
+       View all →
+      </button>
+     </div>
+     <div id="recent-bookings">
+     </div>
+    </div>
+   </section>
+   <section class="view hidden" id="equipment-view">
+    <div class="panel">
+     <div class="panel-heading">
+      <div>
+       <h3>
+        Equipment catalogue
+       </h3>
+       <p>
+        Choose equipment, date and time to check slots
+       </p>
+      </div>
+      <input class="search" id="search" placeholder="Search equipment…"/>
+     </div>
+     <div class="equipment-grid" id="catalogue">
+     </div>
+    </div>
+   </section>
+   <section class="view hidden" id="bookings-view">
+    <div class="panel">
+     <div class="panel-heading">
+      <div>
+       <h3>
+        Booking requests
+       </h3>
+       <p>
+        Your requests and their current status
+       </p>
+      </div>
+     </div>
+     <div id="booking-list">
+     </div>
+    </div>
+   </section>
+   <section class="view hidden" id="history-view">
+    <div class="panel">
+     <div class="panel-heading">
+      <div>
+       <h3>
+        Usage history
+       </h3>
+       <p>
+        Bookings marked completed by demo admin
+       </p>
+      </div>
+     </div>
+     <div id="history-list">
+     </div>
+    </div>
+   </section>
+   <section class="view hidden" id="notifications-view">
+    <div class="panel">
+     <div class="panel-heading">
+      <div>
+       <h3>
+        Notifications
+       </h3>
+       <p>
+        Booking status and equipment updates
+       </p>
+      </div>
+      <button class="text-btn" onclick="markAllRead()">
+       Mark all read
+      </button>
+     </div>
+     <div id="notification-list">
+     </div>
+    </div>
+   </section>
+   <section class="view hidden" id="admin-view">
+    <div class="admin-banner">
+     <div>
+      <h2>
+       Admin controls
+      </h2>
+      <p>
+       Approve/reject requests, mark completed or toggle maintenance.
+      </p>
+     </div>
+     <span class="admin-tag">
+      DEMO ADMIN
+     </span>
+    </div>
+    <div class="panel">
+     <div class="panel-heading">
+      <div>
+       <h3>
+        All booking requests
+       </h3>
+       <p>
+        Review and update requests
+       </p>
+      </div>
+     </div>
+     <div id="admin-bookings">
+     </div>
+    </div>
+    <div class="panel">
+     <div class="panel-heading">
+      <div>
+       <h3>
+        Equipment maintenance
+       </h3>
+       <p>
+        Toggle items unavailable for maintenance
+       </p>
+      </div>
+     </div>
+     <div id="maintenance-list">
+     </div>
+    </div>
+   </section>
+  </main>
+  <dialog id="booking-dialog">
+   <form id="booking-form">
+    <div class="dialog-head">
+     <div>
+      <p class="eyebrow">
+       BOOK A RESOURCE
+      </p>
+      <h2 id="dialog-equipment-name">
+       Equipment
+      </h2>
+     </div>
+     <button class="close" id="close-dialog" type="button">
+      ×
+     </button>
+    </div>
+    <input id="equipment-id" type="hidden"/>
+    <label>
+     Your name
+     <input id="student-name" maxlength="60" placeholder="Enter your name" required=""/>
+    </label>
+    <label>
+     Student ID / Roll number
+     <input id="student-id" maxlength="30" placeholder="Enter roll number" required=""/>
+    </label>
+    <div class="two-cols">
+     <label>
+      Booking date
+      <input id="booking-date" required="" type="date"/>
+     </label>
+     <label>
+      Start time
+      <select id="booking-time" required="">
+       <option value="">
+        Select time
+       </option>
+       <option>
+        09:00
+       </option>
+       <option>
+        10:00
+       </option>
+       <option>
+        11:00
+       </option>
+       <option>
+        12:00
+       </option>
+       <option>
+        13:00
+       </option>
+       <option>
+        14:00
+       </option>
+       <option>
+        15:00
+       </option>
+       <option>
+        16:00
+       </option>
+      </select>
+     </label>
+    </div>
+    <label>
+     Duration
+     <select id="booking-duration">
+      <option value="1">
+       1 hour
+      </option>
+      <option value="2">
+       2 hours
+      </option>
+      <option value="3">
+       3 hours
+      </option>
+     </select>
+    </label>
+    <div class="slot-feedback" id="slot-feedback">
+     Select date and time to check slot.
+    </div>
+    <label>
+     Purpose
+     <textarea id="purpose" maxlength="160" placeholder="Briefly describe why you need it" rows="2"></textarea>
+    </label>
+    <p class="form-note">
+     Requests are pending until approved. Demo slots: 09:00–17:00.
+    </p>
+    <button class="primary full" type="submit">
+     Submit booking request
+    </button>
+   </form>
+  </dialog>
+  <div class="toast" id="toast">
+  </div>
+  <script src="script.js">
+  </script>
+ </body>
+</html>
